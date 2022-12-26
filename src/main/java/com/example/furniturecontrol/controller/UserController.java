@@ -4,9 +4,7 @@ package com.example.furniturecontrol.controller;
 import com.example.furniturecontrol.entity.User;
 import com.example.furniturecontrol.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,4 +25,18 @@ public class UserController {
         return userService.getUser();
     }
 
+    @PostMapping
+    public void registerNewUser(@RequestBody User user){
+        userService.addNewUser(user);
+    }
+
+    @DeleteMapping(path="{userId}")
+    public void deleteUser(@PathVariable("userId") int uid){
+        userService.deleteUser(uid);
+    }
+
+    @PutMapping(path="{userId}")
+    public void updateUser(@PathVariable("userId") int uid,@RequestParam(required = false) String email,@RequestParam(required = false) String introduction){
+        userService.updateUser(uid,email,introduction);
+    }
 }
