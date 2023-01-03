@@ -22,7 +22,19 @@ public class UserService {
     public List<User> getUser(){
 
         return userRepository.findAll();
-        //return List.of(new User(1,"chx","12345678","chx@qq.com","A stupid"));
+    }
+
+    public User getUserByUsername(String username){
+        Optional<User> userOptional = userRepository.findUserByUsername(username);
+        User user;
+        if (userOptional.isPresent()){
+            user=userOptional.get();
+        }
+        else{
+            user = null;
+//            throw new IllegalStateException("no user named "+username);
+        }
+        return user;
     }
 
     public void addNewUser(User user) {
@@ -31,7 +43,6 @@ public class UserService {
             throw new IllegalStateException("username taken");
         }
         userRepository.save(user);
-        System.out.println(user);
     }
 
     public void deleteUser(int uid) {
@@ -43,7 +54,7 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUser(int uid, String email, String introduction) {
+    public void updateUser(int uid, String username, String password, String email, String introduction) {
 //        boolean exists = userRepository.existsById(uid);
 //        if (!exists){
 //            throw new IllegalStateException("user with id "+ uid + " doesn't exist");
@@ -57,6 +68,15 @@ public class UserService {
         else{
             throw new IllegalStateException("user with id "+ uid + " doesn't exist");
         }
+
+        if (username!=null&&username.length()>0&&!Objects.equals(user.getUsername(),username)){
+            user.setUsername(username);
+        }
+
+        if (password!=null&&password.length()>0&&!Objects.equals(user.getPassword(),password)){
+            user.setPassword(password);
+        }
+
         if (email!=null&&email.length()>0&&!Objects.equals(user.getEmail(),email)){
             user.setEmail(email);
         }
