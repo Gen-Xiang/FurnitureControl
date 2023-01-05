@@ -32,15 +32,19 @@ export default {
   methods: {
     register() {
       this.$axios
-        .post('/register', {
+        .post('/user/register', {
           username: this.registerForm.username,
           password: this.registerForm.password,
           email: this.registerForm.email,
           introduction: this.registerForm.introduction
         })
         .then(successResponse => {
-          if (successResponse.data.code === 200) {
+          if (successResponse.data.uid > 0 ) {
+            this.$message.success("创建成功，您的uid为"+successResponse.data.uid)
             this.$router.replace({path: '/login'})
+          }
+          else if (successResponse.data.uid == -1){
+            this.$message.error("创建失败，用户名"+successResponse.data.username+"已存在")
           }
         })
         // .catch(failResponse => {

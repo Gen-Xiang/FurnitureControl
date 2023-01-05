@@ -37,12 +37,13 @@ public class UserService {
         return user;
     }
 
-    public void addNewUser(User user) {
+    public User addNewUser(User user) {
         Optional<User> userOptional = userRepository.findUserByUsername(user.getUsername());
         if (userOptional.isPresent()){
             throw new IllegalStateException("username taken");
         }
         userRepository.save(user);
+        return userRepository.findUserByUsername(user.getUsername()).get();
     }
 
     public void deleteUser(int uid) {
