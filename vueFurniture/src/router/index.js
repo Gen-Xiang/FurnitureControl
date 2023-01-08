@@ -5,6 +5,9 @@ import Home from '@/components/Home'
 import Login from '@/components/Login'
 import Register from "@/components/Register"
 import UpdateInfo from "@/components/UpdateInfo"
+import RoomList from "@/components/RoomList"
+import Room from "@/components/Room"
+import AddRoom from "@/components/AddRoom"
 
 Vue.use(Router)
 
@@ -34,6 +37,21 @@ export default new Router({
       path: '/updateinfo',
       name: 'UpdateInfo',
       component: UpdateInfo
+    },
+    {
+      path: "/roomlist",
+      name: "RoomList",
+      component: RoomList
+    },
+    {
+      path: "/room/:rid",
+      name: "Room",
+      component: Room
+    },
+    {
+      path: "/addroom/:uid",
+      name: "AddRoom",
+      component: AddRoom
     }
   ]
 })

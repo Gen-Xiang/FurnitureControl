@@ -11,6 +11,12 @@ axios.defaults.withCredentials = true
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 Vue.use(ElementUI)
+// 加载 element 组件库的样式
+import 'element-ui/lib/theme-chalk/index.css'
+// 加载全局样式文件
+// import './styles/index.less'
+Vue.prototype.$hostURL='http://localhost:8088'
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

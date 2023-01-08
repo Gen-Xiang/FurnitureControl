@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button v-on:click="back">返回</button>
+    <el-button type="info" v-on:click="back">返回</el-button>
     <br><br>
     修改个人信息
     <br><br>

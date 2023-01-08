@@ -16,4 +16,10 @@ public interface RoomRepository extends JpaRepository<Room, Integer> {
 
     @Query("SELECT r FROM Room r WHERE r.roomname = ?1")
     Optional<Room> findRoomByRoomname(String roomname);
+
+    @Query("SELECT r FROM Room r WHERE r.graph = ?1")
+    Optional<Room> findRoomByGraph(String graph);
+
+    @Query("SELECT MAX(r.rid) FROM Room r ")
+    int searchMaxRid();
 }

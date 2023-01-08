@@ -1,5 +1,5 @@
 <template>
-  <div class="page">
+  <div>
     <div class="nav">
       <div v-for="(item,index) in navList" :key="index" :class="index == active?'active':''" @mousemove="active = index" @mouseout="active = null" @click="toPage(index)">{{ item.name }}
       </div>
@@ -32,7 +32,7 @@ export default {
       active: null,
       navList: [
         { name: '个人中心' },
-        { name: '房间平台' },
+        { name: '房间列表' },
         { name: '设备列表' },
         { name: '退出登录' },
       ],
@@ -63,7 +63,7 @@ export default {
           this.$router.push({ path: '/home', query: { active: this.active } })
           break
         case 1:
-          this.$router.push({ path: '/login', query: { active: this.active } })
+          this.$router.push({ path: '/roomlist', query: { active: this.active } })
           break
         case 2:
           this.$router.push({ path: '/register', query: { active: this.active } })
@@ -93,21 +93,11 @@ export default {
     font-size: 20px;
     cursor: pointer;
   }
-  div {
-    width: 150px;
-    text-align: center;
-    line-height: 50px;
+
+  .active {
+    background: #486341;
+    color: #ffffff;
+    // padding: 0 5px;
+    //min-width: 120px;
   }
-
-  /*.img {*/
-  /*  width: 100%;*/
-  /*  height: 100%;*/
-  /*}*/
-
-  /*.active {*/
-  /*  background: #486341;*/
-  /*  color: #ffffff;*/
-  /*  // padding: 0 5px;*/
-  /*  //min-width: 120px;*/
-  /*}*/
 </style>

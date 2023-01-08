@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button v-on:click="back">返回</button>
+    <el-button type="info" v-on:click="back">返回</el-button>
     注册新账号
     <br><br>
     用户名:<input type="text" v-model="registerForm.username" placeholder="请输入用户名"/>

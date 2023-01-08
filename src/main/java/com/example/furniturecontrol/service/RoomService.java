@@ -1,7 +1,6 @@
 package com.example.furniturecontrol.service;
 
 import com.example.furniturecontrol.entity.Room;
-import com.example.furniturecontrol.entity.User;
 import com.example.furniturecontrol.repository.RoomRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +24,43 @@ public class RoomService {
         return roomRepository.findAll();
     }
 
+    public Room getRoomByRid(int rid){
+        Optional<Room> roomOptional = roomRepository.findById(rid);
+        if (roomOptional.isPresent()){
+            return roomOptional.get();
+        }
+        else{
+            return null;
+//            throw new IllegalStateException("no room with rid "+rid);
+        }
+    }
+
     public List<Room> getRoomsByUid(int uid){
         List<Room> roomList = roomRepository.findRoomByUid(uid);
         if (!roomList.isEmpty()){
             return roomList;
+        }
+        else{
+            return null;
+//            throw new IllegalStateException("no room owned by "+uid);
+        }
+    }
+
+    public Room getRoomByGraph(String graph){
+        Optional<Room> roomOptional = roomRepository.findRoomByGraph(graph);
+        if (roomOptional.isPresent()){
+            return roomOptional.get();
+        }
+        else{
+            return null;
+//            throw new IllegalStateException("no room owned by "+uid);
+        }
+    }
+
+    public Room getRoomByRoomname(String roomname){
+        Optional<Room> roomOptional = roomRepository.findRoomByRoomname(roomname);
+        if (roomOptional.isPresent()){
+            return roomOptional.get();
         }
         else{
             return null;
@@ -43,6 +75,11 @@ public class RoomService {
         }
         roomRepository.save(room);
     }
+
+    public int searchMaxRid(){
+        return roomRepository.searchMaxRid();
+    }
+
 
     public void deleteRoom(int rid){
         boolean exists = roomRepository.existsById(rid);
