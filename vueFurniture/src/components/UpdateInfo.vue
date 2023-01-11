@@ -12,7 +12,9 @@
     <br><br>
     个人简介： <input type="text" v-model="updateForm.introduction" placeholder="请输入简介"/>
     <br><br>
-    <button v-on:click="update">提交修改</button>
+    <el-button type="primary" v-on:click="update">提交修改</el-button>
+    <br><br>
+    <el-button type="danger" v-on:click="deleteUser">注销账户</el-button>
   </div>
 </template>
 
@@ -21,8 +23,8 @@ export default {
   name: "UpdateInfo",
   data () {
     return {
+      userinfo:{},
       updateForm: {
-        uid: 1,
         username: '',
         password: '',
         email: '',
@@ -31,10 +33,15 @@ export default {
       responseResult: []
     }
   },
+  created() {
+    this.$axios.post('/user/logined').then(successResponse => {
+      this.userinfo=successResponse.data
+    })
+  },
   methods: {
     update() {
       this.$axios
-        .put('/user/'+this.updateForm.uid.toString(), {
+        .put('/user/'+this.userinfo.uid, {
           username: this.updateForm.username,
           password: this.updateForm.password,
           email: this.updateForm.email,
@@ -49,9 +56,22 @@ export default {
         // .catch(failResponse => {
         // })
     },
-  back() {
-    this.$router.replace({path: '/home'})
-  }
+    back() {
+      this.$router.replace({path: '/home'})
+    },
+    deleteUser() {
+      this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$axios.delete("/user/"+this.userinfo.uid)
+        this.$message.success('删除成功!');
+        this.$router.replace({path: "/login"})
+      }).catch(() => {
+        this.$message.info('已取消删除');
+      });
+    }
   }
 }
 </script>

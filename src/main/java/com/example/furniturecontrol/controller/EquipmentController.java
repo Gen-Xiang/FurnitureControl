@@ -48,6 +48,11 @@ public class EquipmentController {
         return ret_equipment;
     }
 
+    @DeleteMapping(path="{equipId}")
+    public void deleteUser(@PathVariable("equipId") int eid){
+        equipmentService.deleteEquipment(eid);
+    }
+
     @PutMapping(path="/status/{equipmentId}")
     public Result updateEquipmentByStatus(@PathVariable("equipmentId")int eid,@RequestBody Equipment equipment){
         Equipment ret_equipment = equipmentService.getEquipmentByEid(eid);

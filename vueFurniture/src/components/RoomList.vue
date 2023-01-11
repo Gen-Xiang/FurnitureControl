@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="nav">
-      <div v-for="(item,index) in navList" :key="index" :class="index == active?'active':''" @mousemove="active = index" @mouseout="active = null" @click="toPage(index)">{{ item.name }}
+      <div v-for="(item,index) in navList" :key="index" :class="index === active?'active':''" @mousemove="active = index" @mouseout="active = null" @click="toPage(index)">{{ item.name }}
       </div>
     </div>
 <!--    <el-row>-->
@@ -57,9 +57,8 @@ export default {
   data () {
     return {
       active: null,
-      uid: 1,
+      userinfo:{},
       fit: 'fill',
-      url: '../assets/1.jpg',
       navList: [
         { name: '个人中心' },
         { name: '房间列表' },
@@ -71,8 +70,11 @@ export default {
   },
   created () {
     this.active = this.$route.query.active
-    this.$axios.post('/room',{uid: this.uid}).then(successResponse => {
-      this.tableData=successResponse.data
+    this.$axios.post('/user/logined').then(successResponse => {
+      this.userinfo=successResponse.data
+      this.$axios.post('/room',{uid: this.userinfo.uid}).then(successResponse => {
+        this.tableData=successResponse.data
+      })
     })
   },
   methods: {
@@ -94,16 +96,23 @@ export default {
       }
     },
     addRoom(){
-      this.$router.push({path: '/addroom/'+this.uid})
+      this.$router.push({path: '/addroom'})
     },
     handleLook(rid){
-      // this.$message.success("room rid is "+rid)
       this.$router.push({path: '/room/'+rid})
     },
     handleDelete(rid){
-      this.$axios.delete('room/'+rid)
-      this.$message.success("删除成功")
-      window.location.reload()
+      this.$confirm('此操作将永久删除该设备, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$axios.delete('room/'+rid)
+        this.$message.success("删除成功")
+        window.location.reload()
+      }).catch(() => {
+        this.$message.info('已取消删除');
+      });
     }
   }
 }

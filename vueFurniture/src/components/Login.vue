@@ -31,7 +31,7 @@ export default {
         })
         .then(successResponse => {
           if (successResponse.data.code === 200) {
-            this.$message("登录成功");
+            this.$message.success("登录成功");
             this.$router.replace({path: '/home'})
           }
           else if (successResponse.data.code === 400){

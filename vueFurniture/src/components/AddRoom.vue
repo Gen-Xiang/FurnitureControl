@@ -36,17 +36,17 @@ export default {
   name: "AddRoom",
   data () {
     return {
-      // uid: 0,
+      userinfo:{},
       roomForm:{
-        uid: 0,
         roomname: '',
         graph: ''
       }
     }
   },
   created() {
-    // this.uid=this.$route.params.uid;
-    this.roomForm.uid=this.$route.params.uid;
+    this.$axios.post('/user/logined').then(successResponse => {
+      this.userinfo=successResponse.data
+    })
   },
   methods:{
     handleSuccess(res,file){
@@ -69,7 +69,7 @@ export default {
       params.append("file",f.file);
       this.$axios({
         method:'post',
-        url:'/room/addroom/'+this.roomForm.uid+'/'+this.roomForm.roomname,
+        url:'/room/addroom/'+this.userinfo.uid+'/'+this.roomForm.roomname,
         data:params,
         headers:{
           'content-type':'multipart/form-data'

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="nav">
-      <div v-for="(item,index) in navList" :key="index" :class="index == active?'active':''" @mousemove="active = index" @mouseout="active = null" @click="toPage(index)">{{ item.name }}
+      <div v-for="(item,index) in navList" :key="index" :class="index === active?'active':''" @mousemove="active = index" @mouseout="active = null" @click="toPage(index)">{{ item.name }}
       </div>
     </div>
     <el-button type="primary" v-on:click="addEquipment">添加设备</el-button>
@@ -34,16 +34,16 @@
 <!--          <el-avatar shape="square" :size="100" :src="require('../assets/lamp.jpeg')"></el-avatar>-->
 <!--        </template>-->
         <template slot-scope="scope">
-          <div v-if="scope.row.type==1">
+          <div v-if="scope.row.type===1">
             <el-avatar shape="square" :size="100" :src="require('../assets/lamp.jpeg')"></el-avatar>
           </div>
-          <div v-else-if="scope.row.type==2">
+          <div v-else-if="scope.row.type===2">
             <el-avatar shape="square" :size="100" :src="require('../assets/switch.jpeg')"></el-avatar>
           </div>
-          <div v-else-if="scope.row.type==3">
+          <div v-else-if="scope.row.type===3">
             <el-avatar shape="square" :size="100" :src="require('../assets/sensor.jpeg')"></el-avatar>
           </div>
-          <div v-else-if="scope.row.type==4">
+          <div v-else-if="scope.row.type===4">
             <el-avatar shape="square" :size="100" :src="require('../assets/lock.jpeg')"></el-avatar>
           </div>
           <div v-else>error type</div>
@@ -54,7 +54,7 @@
         label="操作"
         width="300">
         <template slot-scope="scope">
-          <div v-if="scope.row.type==1">
+          <div v-if="scope.row.type===1">
             开关：
             <el-switch
               v-model="scope.row.status"
@@ -65,8 +65,10 @@
             <br><br>
             亮度：
             <el-slider v-model="scope.row.luminance" @change="changeLuminance(scope.row.eid,scope.row.luminance)"></el-slider>
+            <br><br>
+            <el-button type="danger" v-on:click="deleteEquipment(scope.row.eid)">删除设备</el-button>
           </div>
-          <div v-else-if="scope.row.type==2">
+          <div v-else-if="scope.row.type===2">
             开关：
             <el-switch
               v-model="scope.row.status"
@@ -74,13 +76,17 @@
               active-color="#13ce66"
               inactive-color="#ff4949">
             </el-switch>
+            <br><br>
+            <el-button type="danger" v-on:click="deleteEquipment(scope.row.eid)">删除设备</el-button>
           </div>
-          <div v-else-if="scope.row.type==3">
+          <div v-else-if="scope.row.type===3">
             温度：<span v-text="scope.row.temperature"></span>
             <br><br>
             湿度：<span v-text="scope.row.humidity"></span>
+            <br><br>
+            <el-button type="danger" v-on:click="deleteEquipment(scope.row.eid)">删除设备</el-button>
           </div>
-          <div v-else-if="scope.row.type==4">
+          <div v-else-if="scope.row.type===4">
             门锁：
             <el-switch
               v-model="scope.row.status"
@@ -88,6 +94,8 @@
               active-color="#13ce66"
               inactive-color="#ff4949">
             </el-switch>
+            <br><br>
+            <el-button type="danger" v-on:click="deleteEquipment(scope.row.eid)">删除设备</el-button>
           </div>
           <div v-else>error type</div>
         </template>
@@ -102,21 +110,23 @@ export default {
   data () {
     return {
       active: null,
-      fit: 'fill',
+      userinfo:{},
       navList: [
         { name: '个人中心' },
         { name: '房间列表' },
         { name: '设备列表' },
         { name: '退出登录' },
       ],
-      uid: 1,
       tableData:[]
     }
   },
   created () {
     this.active = this.$route.query.active
-    this.$axios.post('/equipment',{uid: this.uid}).then(successResponse => {
-      this.tableData=successResponse.data
+    this.$axios.post('/user/logined').then(successResponse => {
+      this.userinfo=successResponse.data
+      this.$axios.post('/equipment',{uid: this.userinfo.uid}).then(successResponse => {
+        this.tableData=successResponse.data
+      })
     })
   },
   methods: {
@@ -139,7 +149,20 @@ export default {
       }
     },
     addEquipment(){
-      this.$router.push({path:'/addequipment/'+this.uid})
+      this.$router.push({path:'/addequipment'})
+    },
+    deleteEquipment(eid){
+      this.$confirm('此操作将永久删除该设备, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$axios.delete("/equipment/"+eid)
+        this.$message.success('删除成功!');
+        window.location.reload()
+      }).catch(() => {
+        this.$message.info('已取消删除');
+      });
     },
     changeStatus(eid,status){
       this.$axios.

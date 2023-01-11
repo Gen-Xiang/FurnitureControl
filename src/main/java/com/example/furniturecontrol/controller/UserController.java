@@ -16,21 +16,20 @@ import java.util.Objects;
 public class UserController {
 
     private final UserService userService;
+    private int loginuid=0;
 
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
-    @GetMapping
-    public List<User> getUsers(){
-        return userService.getUser();
+    @PostMapping(path = "/logined")
+    public User getLoginUser(){
+        User user = userService.getUserByUid(loginuid);
+        System.out.println(user);
+        System.out.println(loginuid);
+        return user;
     }
-
-//    @PostMapping
-//    public void registerNewUser(@RequestBody User user){
-//        userService.addNewUser(user);
-//    }
 
     @PostMapping
     public User getUser(@RequestBody User requestUser){
@@ -57,6 +56,7 @@ public class UserController {
             return new Result(400);
         } else {
             System.out.println("Success");
+            loginuid=user.getUid();
             return new Result(200);
         }
     }

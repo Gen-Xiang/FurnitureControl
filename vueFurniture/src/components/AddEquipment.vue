@@ -25,8 +25,8 @@ export default {
   name: "AddEquipment",
   data () {
     return {
+      userinfo:{},
       EquipForm:{
-        uid: 0,
         rid: 0,
         equipname: '',
         type: 0
@@ -47,8 +47,9 @@ export default {
     }
   },
   created() {
-    this.EquipForm.uid=this.$route.params.uid;
-
+    this.$axios.post('/user/logined').then(successResponse => {
+      this.userinfo=successResponse.data
+    })
   },
   methods:{
     back(){
@@ -57,7 +58,7 @@ export default {
     add(){
       this.$axios.
         post("/equipment/add",{
-          uid: this.EquipForm.uid,
+          uid: this.userinfo.uid,
           rid: this.EquipForm.rid,
           equipname: this.EquipForm.equipname,
           type: this.EquipForm.type
@@ -67,7 +68,7 @@ export default {
           this.$message.success("创建成功，新设备的eid为"+successResponse.data.eid)
           this.$router.replace({path: '/equipmentlist'})
         }
-        else if (successResponse.data.uid == -1){
+        else if (successResponse.data.uid === -1){
           this.$message.error("创建失败")
         }
       })

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="nav">
-      <div v-for="(item,index) in navList" :key="index" :class="index == active?'active':''" @mousemove="active = index" @mouseout="active = null" @click="toPage(index)">{{ item.name }}
+      <div v-for="(item,index) in navList" :key="index" :class="index === active?'active':''" @mousemove="active = index" @mouseout="active = null" @click="toPage(index)">{{ item.name }}
       </div>
     </div>
     <el-button type="info" v-on:click="back">返回</el-button>

@@ -19,22 +19,19 @@ public class UserService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    public List<User> getUser(){
+    public List<User> getUsers(){
 
         return userRepository.findAll();
     }
 
+    public User getUserByUid(int uid){
+        Optional<User> userOptional = userRepository.findById(uid);
+        return userOptional.orElse(null);
+    }
+
     public User getUserByUsername(String username){
         Optional<User> userOptional = userRepository.findUserByUsername(username);
-        User user;
-        if (userOptional.isPresent()){
-            user=userOptional.get();
-        }
-        else{
-            user = null;
-//            throw new IllegalStateException("no user named "+username);
-        }
-        return user;
+        return userOptional.orElse(null);
     }
 
     public User addNewUser(User user) {
@@ -43,7 +40,8 @@ public class UserService {
             throw new IllegalStateException("username taken");
         }
         userRepository.save(user);
-        return userRepository.findUserByUsername(user.getUsername()).get();
+        userOptional = userRepository.findUserByUsername(user.getUsername());
+        return userOptional.orElse(null);
     }
 
     public void deleteUser(int uid) {

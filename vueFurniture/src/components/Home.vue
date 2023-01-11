@@ -1,19 +1,19 @@
 <template>
   <div>
     <div class="nav">
-      <div v-for="(item,index) in navList" :key="index" :class="index == active?'active':''" @mousemove="active = index" @mouseout="active = null" @click="toPage(index)">{{ item.name }}
+      <div v-for="(item,index) in navList" :key="index" :class="index === active?'active':''" @mousemove="active = index" @mouseout="active = null" @click="toPage(index)">{{ item.name }}
       </div>
     </div>
   <div>
     个人信息
     <br><br>
-    uid: <span v-text="userinfo.uid"></span>
+    uid: <span v-text="this.userinfo.uid"></span>
     <br><br>
-    username: <span v-text="userinfo.username"></span>
+    username: <span v-text="this.userinfo.username"></span>
     <br><br>
-    email: <span v-text="userinfo.email"></span>
+    email: <span v-text="this.userinfo.email"></span>
     <br><br>
-    introduction: <span v-text="userinfo.introduction"></span>
+    introduction: <span v-text="this.userinfo.introduction"></span>
     <br><br>
     <el-button type="primary" v-on:click="updateInfo">修改信息</el-button>
   </div>
@@ -40,22 +40,13 @@ export default {
         { name: '退出登录' },
       ],
       userinfo: {
-        uid: '',
-        username: '',
-        password: '',
-        email: '',
-        introduction: ''
       }
     }
   },
   created () {
     this.active = this.$route.query.active
-    this.$axios.post('/user',{username: "chx"}).then(successResponse => {
-      this.userinfo.uid=successResponse.data.uid;
-      this.userinfo.username=successResponse.data.username;
-      this.userinfo.password=successResponse.data.password;
-      this.userinfo.email=successResponse.data.email;
-      this.userinfo.introduction=successResponse.data.introduction;
+    this.$axios.post('/user/logined').then(successResponse => {
+      this.userinfo=successResponse.data
     })
   },
   methods: {

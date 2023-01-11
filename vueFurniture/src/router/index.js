@@ -51,7 +51,7 @@ export default new Router({
       component: Room
     },
     {
-      path: "/addroom/:uid",
+      path: "/addroom",
       name: "AddRoom",
       component: AddRoom
     },
@@ -61,7 +61,7 @@ export default new Router({
       component: EquipmentList
     },
     {
-      path: "/addequipment/:uid",
+      path: "/addequipment",
       name: "AddEquipment",
       component: AddEquipment
     }
