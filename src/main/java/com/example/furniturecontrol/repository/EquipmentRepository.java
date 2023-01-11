@@ -11,6 +11,9 @@ import java.util.Optional;
 @Repository
 public interface EquipmentRepository extends JpaRepository<Equipment, Integer> {
 
+    @Query("SELECT e FROM Equipment e WHERE e.eid = ?1")
+    Optional<Equipment> findEquipmentByEid(int eid);
+
     @Query("SELECT e FROM Equipment e WHERE e.uid = ?1")
     List<Equipment> findEquipmentByUid(int uid);
 

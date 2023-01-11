@@ -77,9 +77,11 @@ export default {
       }).then(res=>{
         if (res.data!=null){
           this.$message.success("创建房间成功，rid为"+res.data.rid)
+          this.$router.replace({path: "/roomlist"})
         }
         else{
           this.$message.error("创建失败！")
+          this.$router.replace({path: "/roomlist"})
         }
       })
     },

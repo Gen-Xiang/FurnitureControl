@@ -24,6 +24,16 @@ public class EquipmentService {
         return equipmentRepository.findAll();
     }
 
+    public Equipment getEquipmentByEid(int eid){
+        Optional<Equipment> equipmentOptional = equipmentRepository.findEquipmentByEid(eid);
+        if (equipmentOptional.isPresent()){
+            return equipmentOptional.get();
+        }
+        else{
+            return null;
+        }
+    }
+
     public List<Equipment> getEquipmentByUid(int uid){
         List<Equipment> equipmentList = equipmentRepository.findEquipmentByUid(uid);
         if (!equipmentList.isEmpty()){
@@ -38,6 +48,16 @@ public class EquipmentService {
         List<Equipment> equipmentList = equipmentRepository.findEquipmentByRid(rid);
         if (!equipmentList.isEmpty()){
             return equipmentList;
+        }
+        else{
+            return null;
+        }
+    }
+
+    public Equipment getEquipmentByEquipname(String equipname){
+        Optional<Equipment> equipmentOptional = equipmentRepository.findEquipmentByEquipname(equipname);
+        if (equipmentOptional.isPresent()){
+            return equipmentOptional.get();
         }
         else{
             return null;
@@ -61,7 +81,7 @@ public class EquipmentService {
     }
 
     @Transactional
-    public void updateEquipment(int eid,String equipname,int type, int status, int temperature, int humidity, int luminance, int x, int y){
+    public void updateEquipment(int eid,String equipname,int type, boolean status, int temperature, int humidity, int luminance, int x, int y){
         Optional<Equipment> equipmentOptional = equipmentRepository.findById(eid);
         Equipment equipment;
         if (equipmentOptional.isPresent()){

@@ -21,7 +21,7 @@ public class Equipment {
     private int rid;
     private String equipname;
     private int type;
-    private int status;
+    private boolean status;
     private int temperature;
     private int humidity;
     private int luminance;
@@ -31,7 +31,7 @@ public class Equipment {
     public Equipment() {
     }
 
-    public Equipment(int eid, int uid, int rid, String equipname, int type, int status, int temperature, int humidity, int luminance, int x, int y) {
+    public Equipment(int eid, int uid, int rid, String equipname, int type, boolean status, int temperature, int humidity, int luminance, int x, int y) {
         this.eid = eid;
         this.uid = uid;
         this.rid = rid;
@@ -45,7 +45,14 @@ public class Equipment {
         this.y = y;
     }
 
-    public Equipment(int uid, int rid, String equipname, int type, int status) {
+    public Equipment(int uid, int rid, String equipname, int type) {
+        this.uid = uid;
+        this.rid = rid;
+        this.equipname = equipname;
+        this.type = type;
+    }
+
+    public Equipment(int uid, int rid, String equipname, int type, boolean status) {
         this.uid = uid;
         this.rid = rid;
         this.equipname = equipname;
@@ -53,7 +60,7 @@ public class Equipment {
         this.status = status;
     }
 
-    public Equipment(int uid, int rid, String equipname, int type, int status, int luminance) {
+    public Equipment(int uid, int rid, String equipname, int type, boolean status, int luminance) {
         this.uid = uid;
         this.rid = rid;
         this.equipname = equipname;
@@ -62,7 +69,7 @@ public class Equipment {
         this.luminance = luminance;
     }
 
-    public Equipment(int uid, int rid, String equipname, int type, int status, int humidity, int luminance) {
+    public Equipment(int uid, int rid, String equipname, int type, boolean status, int humidity, int luminance) {
         this.uid = uid;
         this.rid = rid;
         this.equipname = equipname;
@@ -112,11 +119,11 @@ public class Equipment {
         this.type = type;
     }
 
-    public int getStatus() {
+    public boolean getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 

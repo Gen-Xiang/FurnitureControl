@@ -11,7 +11,7 @@
     <br><br>
     个人简介： <input type="text" v-model="registerForm.introduction" placeholder="请输入简介"/>
     <br><br>
-    <button v-on:click="register">注册账号</button>
+    <el-button type="primary" v-on:click="register">注册账号</el-button>
   </div>
 </template>
 

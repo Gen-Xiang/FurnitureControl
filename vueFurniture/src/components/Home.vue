@@ -5,6 +5,8 @@
       </div>
     </div>
   <div>
+    个人信息
+    <br><br>
     uid: <span v-text="userinfo.uid"></span>
     <br><br>
     username: <span v-text="userinfo.username"></span>
@@ -12,7 +14,8 @@
     email: <span v-text="userinfo.email"></span>
     <br><br>
     introduction: <span v-text="userinfo.introduction"></span>
-    <button v-on:click="updateInfo">修改信息</button>
+    <br><br>
+    <el-button type="primary" v-on:click="updateInfo">修改信息</el-button>
   </div>
 <!--    <div style="height:600px">-->
 <!--      <el-image class="img" width="100%" :src="require('@/assets/img/banner-1.jpg')" fit="cover">-->
@@ -66,7 +69,7 @@ export default {
           this.$router.push({ path: '/roomlist', query: { active: this.active } })
           break
         case 2:
-          this.$router.push({ path: '/register', query: { active: this.active } })
+          this.$router.push({ path: '/equipmentlist', query: { active: this.active } })
           break
         case 3:
           this.$router.push({ path: '/login', query: { active: this.active } })

@@ -12,7 +12,7 @@
       <el-col :span="24"><div>
         <el-table
           :data="tableData"
-          border="true"
+          :border=true
           :default-sort = "{prop: 'rid', order: 'ascending'}"
           style="width: 100%;height: 100%">
           <el-table-column
@@ -31,7 +31,7 @@
             label="图片"
             width="480">
             <template slot-scope="scope">
-              <el-avatar shape="square" :size="200" :fit="fit" :src="require('../assets/'+scope.row.graph)"></el-avatar>
+              <el-avatar shape="square" :size="200" :src="require('../assets/'+scope.row.graph)"></el-avatar>
 <!--              <el-image :src="require(scope.row.graph)" fit="contain" style="width: 200px;height: 200px"/>-->
             </template>
           </el-table-column>
@@ -86,7 +86,7 @@ export default {
           this.$router.push({ path: '/roomlist', query: { active: this.active } })
           break
         case 2:
-          this.$router.push({ path: '/register', query: { active: this.active } })
+          this.$router.push({ path: '/equipmentlist', query: { active: this.active } })
           break
         case 3:
           this.$router.push({ path: '/login', query: { active: this.active } })

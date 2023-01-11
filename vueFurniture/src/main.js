@@ -17,6 +17,11 @@ import 'element-ui/lib/theme-chalk/index.css'
 // import './styles/index.less'
 Vue.prototype.$hostURL='http://localhost:8088'
 
+import vdr from 'vue-draggable-resizable-gorkys'
+// 导入默认样式
+import 'vue-draggable-resizable-gorkys/dist/VueDraggableResizable.css'
+Vue.component('vdr', vdr)
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

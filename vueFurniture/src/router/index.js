@@ -1,13 +1,15 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import Home from '@/components/Home'
-import Login from '@/components/Login'
-import Register from "@/components/Register"
-import UpdateInfo from "@/components/UpdateInfo"
-import RoomList from "@/components/RoomList"
-import Room from "@/components/Room"
-import AddRoom from "@/components/AddRoom"
+import HelloWorld from '../components/HelloWorld';
+import Home from '../components/Home';
+import Login from '../components/Login';
+import Register from "../components/Register";
+import UpdateInfo from "../components/UpdateInfo";
+import RoomList from "../components/RoomList";
+import Room from "../components/Room";
+import AddRoom from "../components/AddRoom";
+import EquipmentList from "../components/EquipmentList";
+import AddEquipment from "../components/AddEquipment";
 
 Vue.use(Router)
 
@@ -52,6 +54,17 @@ export default new Router({
       path: "/addroom/:uid",
       name: "AddRoom",
       component: AddRoom
+    },
+    {
+      path: "/equipmentlist",
+      name: "EquipmentList",
+      component: EquipmentList
+    },
+    {
+      path: "/addequipment/:uid",
+      name: "AddEquipment",
+      component: AddEquipment
     }
+
   ]
 })
