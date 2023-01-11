@@ -1,30 +1,28 @@
 <template>
-  <div>
-    <div class="nav">
-      <div v-for="(item,index) in navList" :key="index" :class="index === active?'active':''" @mousemove="active = index" @mouseout="active = null" @click="toPage(index)">{{ item.name }}
-      </div>
+  <body id="poster">
+  <div class="nav">
+    <div v-for="(item,index) in navList" :key="index" :class="index === active?'active':''" @mousemove="active = index" @mouseout="active = null" @click="toPage(index)">{{ item.name }}
     </div>
-  <div>
-    个人信息
-    <br><br>
-    uid: <span v-text="this.userinfo.uid"></span>
-    <br><br>
-    username: <span v-text="this.userinfo.username"></span>
-    <br><br>
-    email: <span v-text="this.userinfo.email"></span>
-    <br><br>
-    introduction: <span v-text="this.userinfo.introduction"></span>
-    <br><br>
-    <el-button type="primary" v-on:click="updateInfo">修改信息</el-button>
   </div>
-<!--    <div style="height:600px">-->
-<!--      <el-image class="img" width="100%" :src="require('@/assets/img/banner-1.jpg')" fit="cover">-->
-<!--      </el-image>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--  <div>-->
-<!--    Hello World!-->
-  </div>
+  <el-form class="home-container" label-position="left" >
+    <h3 class="home_title">个人信息</h3>
+    <el-form-item label="uid">
+      <span class="word" v-text="this.userinfo.uid"></span>
+    </el-form-item>
+    <el-form-item label="用户名">
+      <span class="word" v-text="this.userinfo.username"></span>
+    </el-form-item>
+    <el-form-item label="电子邮箱">
+      <span class="word" v-text="this.userinfo.email"></span>
+    </el-form-item>
+    <el-form-item label="个人介绍">
+      <span class="word" v-text="this.userinfo.introduction"></span>
+    </el-form-item>
+    <el-form-item style="width: 100%">
+      <el-button type="primary" v-on:click="updateInfo">修改信息</el-button>
+    </el-form-item>
+  </el-form>
+  </body>
 </template>
 
 <script>
@@ -76,7 +74,6 @@ export default {
 </script>
 
 <style scoped>
-
   .nav {
     width: 100%;
     display: flex;
@@ -84,7 +81,7 @@ export default {
     z-index: 9;
     position: absolute;
     top: 20px;
-    font-size: 20px;
+    font-size: 28px;
     cursor: pointer;
   }
 
@@ -93,5 +90,37 @@ export default {
     color: #ffffff;
     // padding: 0 5px;
     //min-width: 120px;
+  }
+
+  #poster {
+    background:url("../assets/Nihida2.jpg") no-repeat;
+    background-position: center;
+    height: 100%;
+    width: 100%;
+    background-size: cover;
+    position: fixed;
+  }
+  body{
+    margin:-9px;
+  }
+  .home-container {
+    border-radius: 15px;
+    background-clip: padding-box;
+    margin: 200px auto;
+    width: 350px;
+    padding: 35px 35px 15px 35px;
+    background: #fff;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 0 25px #cac6c6;
+  }
+
+  .home_title {
+    margin: 0 auto 40px auto;
+    text-align: center;
+    color: #505458;
+  }
+
+  .word {
+    font-size: 20px;
   }
 </style>

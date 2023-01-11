@@ -1,38 +1,35 @@
 <template>
-  <div>
+  <body id="poster">
     <div class="nav">
       <div v-for="(item,index) in navList" :key="index" :class="index === active?'active':''" @mousemove="active = index" @mouseout="active = null" @click="toPage(index)">{{ item.name }}
       </div>
     </div>
-    <el-button type="primary" v-on:click="addEquipment">添加设备</el-button>
+    <el-button class="button" type="primary" v-on:click="addEquipment">添加设备</el-button>
     <el-table
       :data="tableData"
       :border=true
       :default-sort = "{prop: 'rid', order: 'ascending'}"
-      style="width: 100%;height: 100%">
+      style="width: 70%;height: 100%;margin-top: 20px">
       <el-table-column
         prop="rid"
         label="房间rid"
-        width="180">
+        width="200">
       </el-table-column>
       <el-table-column
         prop="eid"
         label="eid"
         sortable
-        width="180">
+        width="200">
       </el-table-column>
       <el-table-column
         prop="equipname"
         label="设备名"
-        width="180">
+        width="200">
       </el-table-column>
       <el-table-column
         prop="type"
         label="图片"
-        width="180">
-<!--        <template slot-scope="scope">-->
-<!--          <el-avatar shape="square" :size="100" :src="require('../assets/lamp.jpeg')"></el-avatar>-->
-<!--        </template>-->
+        width="270">
         <template slot-scope="scope">
           <div v-if="scope.row.type===1">
             <el-avatar shape="square" :size="100" :src="require('../assets/lamp.jpeg')"></el-avatar>
@@ -64,9 +61,9 @@
             </el-switch>
             <br><br>
             亮度：
-            <el-slider v-model="scope.row.luminance" @change="changeLuminance(scope.row.eid,scope.row.luminance)"></el-slider>
-            <br><br>
-            <el-button type="danger" v-on:click="deleteEquipment(scope.row.eid)">删除设备</el-button>
+            <el-slider style="width: 100%" v-model="scope.row.luminance" @change="changeLuminance(scope.row.eid,scope.row.luminance)"></el-slider>
+            <br>
+            <el-button class="button2" type="danger" v-on:click="deleteEquipment(scope.row.eid)">删除设备</el-button>
           </div>
           <div v-else-if="scope.row.type===2">
             开关：
@@ -76,15 +73,15 @@
               active-color="#13ce66"
               inactive-color="#ff4949">
             </el-switch>
-            <br><br>
-            <el-button type="danger" v-on:click="deleteEquipment(scope.row.eid)">删除设备</el-button>
+            <br>
+            <el-button class="button2" type="danger" v-on:click="deleteEquipment(scope.row.eid)">删除设备</el-button>
           </div>
           <div v-else-if="scope.row.type===3">
             温度：<span v-text="scope.row.temperature"></span>
             <br><br>
             湿度：<span v-text="scope.row.humidity"></span>
-            <br><br>
-            <el-button type="danger" v-on:click="deleteEquipment(scope.row.eid)">删除设备</el-button>
+            <br>
+            <el-button class="button2" type="danger" v-on:click="deleteEquipment(scope.row.eid)">删除设备</el-button>
           </div>
           <div v-else-if="scope.row.type===4">
             门锁：
@@ -94,14 +91,14 @@
               active-color="#13ce66"
               inactive-color="#ff4949">
             </el-switch>
-            <br><br>
-            <el-button type="danger" v-on:click="deleteEquipment(scope.row.eid)">删除设备</el-button>
+            <br>
+            <el-button class="button2" type="danger" v-on:click="deleteEquipment(scope.row.eid)">删除设备</el-button>
           </div>
           <div v-else>error type</div>
         </template>
       </el-table-column>
     </el-table>
-  </div>
+  </body>
 </template>
 
 <script>
@@ -171,7 +168,7 @@ export default {
       })
         .then(successResponse => {
           if (successResponse.data.code === 200) {
-            this.$message.success("开关状态为"+status)
+            console.log("开关状态为"+status)
           }
         })
     },
@@ -182,7 +179,7 @@ export default {
       })
         .then(successResponse => {
           if (successResponse.data.code === 200) {
-            this.$message.success("亮度为"+luminance)
+            console.log("亮度为"+luminance)
           }
         })
     },
@@ -194,10 +191,10 @@ export default {
         .then(successResponse => {
           if (successResponse.data.code === 200) {
             if (status){
-              this.$message.success("门已关锁")
+              this.$message.success("eid为"+eid+"的门锁已关锁")
             }
             else{
-              this.$message.warning("门已开锁")
+              this.$message.warning("eid为"+eid+"的门锁已开锁")
             }
           }
         })
@@ -215,7 +212,7 @@ export default {
   z-index: 9;
   position: absolute;
   top: 20px;
-  font-size: 20px;
+  font-size: 28px;
   cursor: pointer;
 }
 
@@ -226,4 +223,23 @@ export default {
 //min-width: 120px;
 }
 
+#poster {
+  background:url("../assets/Nihida2.jpg") no-repeat;
+  background-position: center;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+}
+body{
+  margin:-9px;
+}
+
+.button{
+  margin-top: 60px;
+  text-align: left;
+}
+.button2{
+  margin-top: 5px;
+  text-align: center;
+}
 </style>

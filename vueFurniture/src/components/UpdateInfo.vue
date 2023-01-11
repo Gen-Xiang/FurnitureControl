@@ -1,21 +1,27 @@
 <template>
-  <div>
-    <el-button type="info" v-on:click="back">返回</el-button>
-    <br><br>
-    修改个人信息
-    <br><br>
-    用户名:<input type="text" v-model="updateForm.username" placeholder="请输入用户名"/>
-    <br><br>
-    密码： <input type="password" v-model="updateForm.password" placeholder="请输入密码"/>
-    <br><br>
-    邮箱： <input type="text" v-model="updateForm.email" placeholder="请输入邮箱"/>
-    <br><br>
-    个人简介： <input type="text" v-model="updateForm.introduction" placeholder="请输入简介"/>
-    <br><br>
-    <el-button type="primary" v-on:click="update">提交修改</el-button>
-    <br><br>
-    <el-button type="danger" v-on:click="deleteUser">注销账户</el-button>
-  </div>
+  <body id="poster">
+  <el-button type="info" style="margin-top: 50px; text-align: left" v-on:click="back">返回</el-button>
+  <el-form class="update-container" label-position="left">
+    <h2 class="update_title">修改个人信息</h2>
+    <el-form-item label="用户名">
+      <el-input type="text" label-width="auto" v-model="updateForm.username" auto-complete="off" placeholder="请输入用户名"></el-input>
+    </el-form-item>
+    <el-form-item label="密码">
+      <el-input type="password" label-width="auto" v-model="updateForm.password" auto-complete="off" placeholder="请输入密码"></el-input>
+    </el-form-item>
+    <el-form-item label="电子邮箱">
+      <el-input type="text" label-width="auto" v-model="updateForm.email" auto-complete="off" placeholder="请输入电子邮箱"></el-input>
+    </el-form-item>
+    <el-form-item label="个人介绍">
+      <el-input type="text" label-width="auto" v-model="updateForm.introduction" auto-complete="off" placeholder="请输入个人介绍"></el-input>
+    </el-form-item>
+    <el-form-item style="width: 100%">
+      <el-button type="primary" v-on:click="update">提交修改</el-button>
+      <br><br>
+      <el-button type="danger" v-on:click="deleteUser">注销账户</el-button>
+    </el-form-item>
+  </el-form>
+  </body>
 </template>
 
 <script>
@@ -53,8 +59,6 @@ export default {
             this.$router.replace({path: '/home'})
           }
         })
-        // .catch(failResponse => {
-        // })
     },
     back() {
       this.$router.replace({path: '/home'})
@@ -77,5 +81,31 @@ export default {
 </script>
 
 <style scoped>
+#poster {
+  background:url("../assets/Nihida2.jpg") no-repeat;
+  background-position: center;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  position: fixed;
+}
+body{
+  margin:-9px;
+}
+.update-container {
+  border-radius: 15px;
+  background-clip: padding-box;
+  margin: 30px auto;
+  width: 350px;
+  padding: 35px 35px 15px 35px;
+  background: #fff;
+  border: 1px solid #eaeaea;
+  box-shadow: 0 0 25px #cac6c6;
+}
 
+.update_title {
+  margin: 0 auto 40px auto;
+  text-align: center;
+  color: #505458;
+}
 </style>

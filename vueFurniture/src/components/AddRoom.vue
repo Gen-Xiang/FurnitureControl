@@ -1,34 +1,37 @@
 <template>
-  <div>
-    <el-button type="info" v-on:click="back">返回</el-button>
-    添加房间
-    <br><br>
-    房间名:<input type="text" v-model="roomForm.roomname" placeholder="请输入房间名"/>
-    <br><br>
-    <el-upload
-      list-type="picture-card"
-      action="#"
-      ref="upload"
-      :http-request="picUpload"
-      :show-file-list="true"
-      :auto-upload="false"
-      :on-remove="handleRemove"
-      :on-success="handleSuccess"
-      :before-upload="beforeUpload"
-      :multiple="false"
-      :limit="1"
-      :on-exceed="handleExceed"
-    >
-<!--      <img v-if="$hostURL+imageUrl" :src="$hostURL+imageUrl" class="avatar">-->
-      <i class="el-icon-plus"></i>
-    </el-upload>
-    <el-dialog :visible.sync="dialogVisible">
-      <img width="100%" :src="dialogImageUrl" alt="">
-    </el-dialog>
-
-    <el-button type="primary" @click="submitUpload">添加房间</el-button>
-<!--    <button v-on:click="add">添加房间</button>-->
-  </div>
+  <body id="poster">
+    <el-button type="info" style="margin-top: 50px; text-align: left" v-on:click="back">返回</el-button>
+    <el-form class="addroom-container" label-position="left">
+      <h1 class="addroom_title">添加房间</h1>
+      <el-form-item label="房间名">
+        <el-input type="text" label-width="auto" v-model="roomForm.roomname" auto-complete="off" placeholder="请输入房间名"></el-input>
+      </el-form-item>
+      <el-form-item label="上传图片">
+        <el-upload
+          list-type="picture-card"
+          action="#"
+          ref="upload"
+          :http-request="picUpload"
+          :show-file-list="true"
+          :auto-upload="false"
+          :on-remove="handleRemove"
+          :on-success="handleSuccess"
+          :before-upload="beforeUpload"
+          :multiple="false"
+          :limit="1"
+          :on-exceed="handleExceed"
+        >
+          <i class="el-icon-plus"></i>
+        </el-upload>
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
+      </el-form-item>
+      <el-form-item style="width: 100%">
+        <el-button type="primary" @click="submitUpload">添加房间</el-button>
+      </el-form-item>
+    </el-form>
+  </body>
 </template>
 
 <script>
@@ -86,10 +89,10 @@ export default {
       })
     },
     handlePreview(){
-      this.$message.info("这是Preview")
+      console.log("这是Preview")
     },
     handleRemove(){
-      this.$message.warning("删除图片")
+      console.log("删除图片")
     },
     handleExceed(){
       this.$message.error("只能上传一张照片")
@@ -106,5 +109,31 @@ export default {
 </script>
 
 <style scoped>
+#poster {
+  background:url("../assets/Nihida2.jpg") no-repeat;
+  background-position: center;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  position: fixed;
+}
+body{
+  margin:-9px;
+}
+.addroom-container {
+  border-radius: 15px;
+  background-clip: padding-box;
+  margin: 30px auto;
+  width: 350px;
+  padding: 35px 35px 15px 35px;
+  background: #fff;
+  border: 1px solid #eaeaea;
+  box-shadow: 0 0 25px #cac6c6;
+}
 
+.addroom_title {
+  margin: 0 auto 40px auto;
+  text-align: center;
+  color: #505458;
+}
 </style>

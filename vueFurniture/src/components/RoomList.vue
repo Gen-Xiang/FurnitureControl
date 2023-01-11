@@ -1,54 +1,44 @@
 <template>
-  <div>
+  <body id="poster">
     <div class="nav">
       <div v-for="(item,index) in navList" :key="index" :class="index === active?'active':''" @mousemove="active = index" @mouseout="active = null" @click="toPage(index)">{{ item.name }}
       </div>
     </div>
-<!--    <el-row>-->
-<!--      <el-col :span="12">&nbsp</el-col>-->
-<!--      <el-col :span="12">&nbsp</el-col>-->
-<!--    </el-row>-->
-    <el-row>
-      <el-col :span="24"><div>
-        <el-table
-          :data="tableData"
-          :border=true
-          :default-sort = "{prop: 'rid', order: 'ascending'}"
-          style="width: 100%;height: 100%">
-          <el-table-column
-            prop="rid"
-            label="rid"
-            sortable
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="roomname"
-            label="房间名"
-            width="180">
-          </el-table-column>
-          <el-table-column
-            prop="graph"
-            label="图片"
-            width="480">
-            <template slot-scope="scope">
-              <el-avatar shape="square" :size="200" :src="require('../assets/'+scope.row.graph)"></el-avatar>
-<!--              <el-image :src="require(scope.row.graph)" fit="contain" style="width: 200px;height: 200px"/>-->
-            </template>
-          </el-table-column>
-          <el-table-column
-            label="操作"
-            width="300">
-            <template slot-scope="scope">
-              <el-button @click="handleLook(scope.row.rid)" type="primary" >查看</el-button>
-<!--              <el-button type="info" >编辑</el-button>-->
-              <el-button @click="handleDelete(scope.row.rid)" type="danger" >删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div></el-col>
-    </el-row>
-    <el-button type="primary" v-on:click="addRoom">添加房间</el-button>
-  </div>
+    <el-button class="button" type="primary" v-on:click="addRoom">添加房间</el-button>
+    <el-table
+      :data="tableData"
+      :border=true
+      :default-sort = "{prop: 'rid', order: 'ascending'}"
+      style="width: 80%;height: 100%;margin-top: 20px">
+      <el-table-column
+        prop="rid"
+        label="rid"
+        sortable
+        width="300">
+      </el-table-column>
+      <el-table-column
+        prop="roomname"
+        label="房间名"
+        width="300">
+      </el-table-column>
+      <el-table-column
+        prop="graph"
+        label="图片"
+        width="400">
+        <template slot-scope="scope">
+          <el-avatar shape="square" :size="200" :src="require('../assets/'+scope.row.graph)"></el-avatar>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="操作"
+        width="338">
+        <template slot-scope="scope">
+          <el-button @click="handleLook(scope.row.rid)" type="primary" >查看</el-button>
+          <el-button @click="handleDelete(scope.row.rid)" type="danger" >删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </body>
 </template>
 
 <script>
@@ -127,7 +117,7 @@ export default {
   z-index: 9;
   position: absolute;
   top: 20px;
-  font-size: 20px;
+  font-size: 28px;
   cursor: pointer;
 }
 
@@ -136,5 +126,21 @@ export default {
   color: #ffffff;
 // padding: 0 5px;
 //min-width: 120px;
+}
+
+#poster {
+  background:url("../assets/Nihida2.jpg") no-repeat;
+  background-position: center;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+}
+body{
+  margin:-9px;
+}
+
+.button{
+  margin-top: 60px;
+  text-align: left;
 }
 </style>

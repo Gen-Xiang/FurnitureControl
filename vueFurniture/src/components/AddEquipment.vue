@@ -1,23 +1,29 @@
 <template>
-  <div>
-    <el-button type="info" v-on:click="back">返回</el-button>
-    添加新设备
-    <br><br>
-    设备名:<input type="text" v-model="EquipForm.equipname" placeholder="请输入设备名"/>
-    <br><br>
-    房间rid： <input type="text" v-model="EquipForm.rid" placeholder="请输入房间rid"/>
-    <br><br>
-    设备类型： <el-select v-model="EquipForm.type" placeholder="请选择设备类型">
-      <el-option
-        v-for="item in options"
-        :key="item.value"
-        :label="item.label"
-        :value="item.value">
-      </el-option>
-    </el-select>
-    <br><br>
-    <el-button type="primary" v-on:click="add">添加设备</el-button>
-  </div>
+  <body id="poster">
+    <el-button type="info" style="margin-top: 50px; text-align: left" v-on:click="back">返回</el-button>
+    <el-form class="addequipment-container" label-position="left">
+      <h1 class="addequipment_title">添加新设备</h1>
+      <el-form-item label="设备名">
+        <el-input type="text" label-width="auto" v-model="EquipForm.equipname" auto-complete="off" placeholder="请输入设备名"></el-input>
+      </el-form-item>
+      <el-form-item label="房间rid">
+        <el-input type="text" label-width="auto" v-model="EquipForm.rid" auto-complete="off" placeholder="请输入房间rid"></el-input>
+      </el-form-item>
+      <el-form-item label="设备类型">
+        <el-select v-model="EquipForm.type" placeholder="请选择设备类型">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item style="width: 100%">
+        <el-button type="primary" v-on:click="add">添加设备</el-button>
+      </el-form-item>
+    </el-form>
+  </body>
 </template>
 
 <script>
@@ -80,5 +86,31 @@ export default {
 </script>
 
 <style scoped>
+#poster {
+  background:url("../assets/Nihida2.jpg") no-repeat;
+  background-position: center;
+  height: 100%;
+  width: 100%;
+  background-size: cover;
+  position: fixed;
+}
+body{
+  margin:-9px;
+}
+.addequipment-container {
+  border-radius: 15px;
+  background-clip: padding-box;
+  margin: 30px auto;
+  width: 350px;
+  padding: 35px 35px 15px 35px;
+  background: #fff;
+  border: 1px solid #eaeaea;
+  box-shadow: 0 0 25px #cac6c6;
+}
 
+.addequipment_title {
+  margin: 0 auto 40px auto;
+  text-align: center;
+  color: #505458;
+}
 </style>
