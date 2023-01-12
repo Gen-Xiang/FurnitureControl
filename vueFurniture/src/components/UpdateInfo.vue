@@ -58,6 +58,15 @@ export default {
             this.$message.success("修改成功")
             this.$router.replace({path: '/home'})
           }
+          else if (successResponse.data.code === 401){
+            this.$message.error("用户名已被其他人占用");
+          }
+          else if (successResponse.data.code === 402){
+            this.$message.error("电子邮箱已被其他人占用");
+          }
+          else if (successResponse.data.code === 403){
+            this.$message.error("密码长度少于6位");
+          }
         })
     },
     back() {

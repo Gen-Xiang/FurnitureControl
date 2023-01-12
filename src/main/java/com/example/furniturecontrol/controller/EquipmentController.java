@@ -6,6 +6,7 @@ import com.example.furniturecontrol.entity.Room;
 import com.example.furniturecontrol.entity.User;
 import com.example.furniturecontrol.result.Result;
 import com.example.furniturecontrol.service.EquipmentService;
+import com.example.furniturecontrol.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,10 +17,12 @@ import java.util.Random;
 @RequestMapping(path = "api/equipment")
 public class EquipmentController {
     private final EquipmentService equipmentService;
+    private final RoomService roomService;
 
     @Autowired
-    public EquipmentController(EquipmentService equipmentService) {
+    public EquipmentController(EquipmentService equipmentService, RoomService roomService) {
         this.equipmentService = equipmentService;
+        this.roomService = roomService;
     }
 
     @PostMapping
@@ -34,6 +37,14 @@ public class EquipmentController {
 
     @PostMapping(path = "/add")
     public Equipment addNewEquipment(@RequestBody Equipment equipment){
+        Equipment origin_equipment = equipmentService.getEquipmentByEquipname(equipment.getEquipname());
+        if (!(origin_equipment ==null)){
+            return new Equipment(-1,equipment.getUid(),equipment.getRid(),equipment.getEquipname(),equipment.getType(),equipment.getStatus(),equipment.getTemperature(),equipment.getHumidity(),equipment.getLuminance(),equipment.getX(),equipment.getY());
+        }
+        Room room = roomService.getRoomByRid(equipment.getRid());
+        if (room==null){
+            return new Equipment(-2,equipment.getUid(),equipment.getRid(),equipment.getEquipname(),equipment.getType(),equipment.getStatus(),equipment.getTemperature(),equipment.getHumidity(),equipment.getLuminance(),equipment.getX(),equipment.getY());
+        }
         equipmentService.addNewEquipment(equipment);
         Equipment ret_equipment = equipmentService.getEquipmentByEquipname(equipment.getEquipname());
         if (ret_equipment.getType()==1){

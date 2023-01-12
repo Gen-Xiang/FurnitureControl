@@ -82,6 +82,7 @@ export default {
           break
         case 3:
           this.$router.push({ path: '/login', query: { active: this.active } })
+          this.$message.success("退出登录成功")
           break
       }
     },
@@ -92,7 +93,7 @@ export default {
       this.$router.push({path: '/room/'+rid})
     },
     handleDelete(rid){
-      this.$confirm('此操作将永久删除该设备, 是否继续?', '提示', {
+      this.$confirm('此操作将永久删除该房间, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'

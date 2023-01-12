@@ -62,6 +62,7 @@ export default {
           break
         case 3:
           this.$router.push({ path: '/login', query: { active: this.active } })
+          this.$message.success("退出登录成功")
           break
 
       }

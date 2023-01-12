@@ -41,8 +41,17 @@ export default {
             this.$message.success("登录成功");
             this.$router.replace({path: '/home'})
           }
-          else if (successResponse.data.code === 400){
-            this.$message.error("登录失败");
+          else if (successResponse.data.code === 401){
+            this.$message.error("用户名为空");
+          }
+          else if (successResponse.data.code === 402){
+            this.$message.error("密码为空");
+          }
+          else if (successResponse.data.code === 403){
+            this.$message.error("用户不存在");
+          }
+          else if (successResponse.data.code === 404){
+            this.$message.error("密码错误");
           }
         })
     },

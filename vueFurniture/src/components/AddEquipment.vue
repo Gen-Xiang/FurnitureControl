@@ -62,23 +62,38 @@ export default {
       this.$router.replace({path: '/equipmentlist'})
     },
     add(){
-      this.$axios.
+      if (this.EquipForm.rid===0){
+        this.$message.error("房间rid不能为0")
+      }
+      else if (this.EquipForm.equipname.length===0){
+        this.$message.error("设备名不能为空")
+      }
+      else if (this.EquipForm.type===0){
+        this.$message.error("请选择设备类型")
+      }
+      else{
+        this.$axios.
         post("/equipment/add",{
           uid: this.userinfo.uid,
           rid: this.EquipForm.rid,
           equipname: this.EquipForm.equipname,
           type: this.EquipForm.type
-      })
-      .then(successResponse => {
-        if (successResponse.data.eid > 0 ) {
-          this.$message.success("创建成功，新设备的eid为"+successResponse.data.eid)
-          this.$router.replace({path: '/equipmentlist'})
-        }
-        else if (successResponse.data.uid === -1){
-          this.$message.error("创建失败")
-        }
-      })
-    }
+        })
+          .then(successResponse => {
+            if (successResponse.data.eid > 0 ) {
+              this.$message.success("创建成功，新设备的eid为"+successResponse.data.eid)
+              this.$router.replace({path: '/equipmentlist'})
+              window.location.reload()
+            }
+            else if (successResponse.data.eid === -1){
+              this.$message.error("设备名已存在")
+            }
+            else if (successResponse.data.eid === -2){
+              this.$message.error("rid为"+successResponse.data.rid+"的房间不存在")
+            }
+          })
+      }
+      }
   }
 
 

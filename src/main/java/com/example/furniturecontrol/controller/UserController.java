@@ -47,15 +47,21 @@ public class UserController {
         username = HtmlUtils.htmlEscape(username);
         String password = requestUser.getPassword();
         password = HtmlUtils.htmlEscape(password);
+        if (username.length()==0){
+            return new Result(401);
+        }
+        else if (password.length()==0){
+            return new Result(402);
+        }
 
         User user = userService.getUserByUsername(username);
-
-        if (user==null || !Objects.equals(user.getPassword(), password)) {
+        if (user==null){
+            return new Result(403);
+        }
+        else if (!Objects.equals(user.getPassword(), password)) {
             String message = "账号密码错误";
-            System.out.println("Fail");
-            return new Result(400);
+            return new Result(404);
         } else {
-            System.out.println("Success");
             loginuid=user.getUid();
             return new Result(200);
         }
@@ -73,16 +79,26 @@ public class UserController {
         email = HtmlUtils.htmlEscape(email);
         String introduction = requestUser.getIntroduction();
         introduction = HtmlUtils.htmlEscape(introduction);
+        if (username.length()==0){
+            return new User(0,username,password,email,introduction);
+        }
+        if (email.length()==0){
+            return new User(-4,username,password,email,introduction);
+        }
 
         User user = userService.getUserByUsername(username);
-
         if (user!=null) {
-            String message = "账号已注册";
-            System.out.println("Fail");
             return new User(-1,username,password,email,introduction);
-        } else {
+        }
+        user = userService.getUserByEmail(email);
+        if (user!=null) {
+            return new User(-2,username,password,email,introduction);
+        }
+        else if (password.length()<6){
+            return new User(-3,username,password,email,introduction);
+        }
+        else {
             user = userService.addNewUser(new User(username,password,email,introduction));
-            System.out.println("Success");
             return user;
         }
     }
@@ -95,13 +111,26 @@ public class UserController {
     @PutMapping(path="{userId}")
     public Result updateUser(@PathVariable("userId") int uid, @RequestBody User requestUser){
         //@RequestParam(required = false) String username,@RequestParam(required = false) String password,@RequestParam(required = false) String email,@RequestParam(required = false) String introduction
-        System.out.println(requestUser);
         String username = requestUser.getUsername();
         String password = requestUser.getPassword();
         String email = requestUser.getEmail();
         String introduction = requestUser.getIntroduction();
-        userService.updateUser(uid,username,password,email,introduction);
-        System.out.println("Success");
-        return new Result(200);
+
+        User origin_user = userService.getUserByUid(uid);
+        User user = userService.getUserByUsername(username);
+        if (user!=null&&!Objects.equals(origin_user.getUsername(), user.getUsername())) {
+            return new Result(401);
+        }
+        user = userService.getUserByEmail(email);
+        if (user!=null&&!Objects.equals(origin_user.getEmail(), user.getEmail())) {
+            return new Result(402);
+        }
+        else if (password.length()<6&&password.length()>0){
+            return new Result(403);
+        }
+        else {
+            userService.updateUser(uid,username,password,email,introduction);
+            return new Result(200);
+        }
     }
 }

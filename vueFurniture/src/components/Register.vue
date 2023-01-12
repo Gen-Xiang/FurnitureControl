@@ -50,8 +50,20 @@ export default {
             this.$message.success("创建成功，您的uid为"+successResponse.data.uid)
             this.$router.replace({path: '/login'})
           }
+          else if (successResponse.data.uid === 0){
+            this.$message.error("创建失败，用户名不能为空")
+          }
           else if (successResponse.data.uid === -1){
             this.$message.error("创建失败，用户名"+successResponse.data.username+"已存在")
+          }
+          else if (successResponse.data.uid === -2){
+            this.$message.error("创建失败，邮箱"+successResponse.data.email+"已被使用")
+          }
+          else if (successResponse.data.uid === -3){
+            this.$message.error("创建失败，密码长度少于6位")
+          }
+          else if (successResponse.data.uid === -4){
+            this.$message.error("创建失败，电子邮箱不能为空")
           }
         })
     },

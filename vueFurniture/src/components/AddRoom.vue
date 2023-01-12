@@ -16,6 +16,7 @@
           :auto-upload="false"
           :on-remove="handleRemove"
           :on-success="handleSuccess"
+          :on-change="handleChange"
           :before-upload="beforeUpload"
           :multiple="false"
           :limit="1"
@@ -23,9 +24,9 @@
         >
           <i class="el-icon-plus"></i>
         </el-upload>
-        <el-dialog :visible.sync="dialogVisible">
-          <img width="100%" :src="dialogImageUrl" alt="">
-        </el-dialog>
+<!--        <el-dialog :visible.sync="dialogVisible">-->
+<!--          <img width="100%" :src="dialogImageUrl" alt="">-->
+<!--        </el-dialog>-->
       </el-form-item>
       <el-form-item style="width: 100%">
         <el-button type="primary" @click="submitUpload">添加房间</el-button>
@@ -35,6 +36,7 @@
 </template>
 
 <script>
+
 export default {
   name: "AddRoom",
   data () {
@@ -43,7 +45,8 @@ export default {
       roomForm:{
         roomname: '',
         graph: ''
-      }
+      },
+      havepicture: false
     }
   },
   created() {
@@ -56,51 +59,64 @@ export default {
       this.roomForm.graph = URL.createObjectURL(file.raw);
     },
     beforeUpload(file){
-      const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
-
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
-      }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
-      }
-      return isJPG && isLt2M;
+      // const isJPG = file.type === 'image/jpeg';
+      // const isLt2M = file.size / 1024 / 1024 < 2;
+      //
+      // if (!isJPG) {
+      //   this.$message.error('上传头像图片只能是 JPG 格式!');
+      // }
+      // if (!isLt2M) {
+      //   this.$message.error('上传头像图片大小不能超过 2MB!');
+      // }
+      // return isJPG && isLt2M;
     },
     picUpload(f){
       let params = new FormData()
       params.append("file",f.file);
-      this.$axios({
-        method:'post',
-        url:'/room/addroom/'+this.userinfo.uid+'/'+this.roomForm.roomname,
-        data:params,
-        headers:{
-          'content-type':'multipart/form-data'
-        }
-      }).then(res=>{
-        if (res.data!=null){
-          this.$message.success("创建房间成功，rid为"+res.data.rid)
-          this.$router.replace({path: "/roomlist"})
-        }
-        else{
-          this.$message.error("创建失败！")
-          this.$router.replace({path: "/roomlist"})
-        }
-      })
+      if (this.roomForm.roomname.length===0){
+        this.$message.error("房间名不能为空")
+      }
+      else{
+        this.$axios({
+          method:'post',
+          url:'/room/addroom/'+this.userinfo.uid+'/'+this.roomForm.roomname,
+          data:params,
+          headers:{
+            'content-type':'multipart/form-data'
+          }
+        }).then(res=>{
+          if (res.data!=null){
+            this.$message.success("创建房间成功，rid为"+res.data.rid)
+            this.$router.push({path: "/roomlist"})
+          }
+          else{
+            this.$message.error("创建失败！")
+            this.$router.push({path: "/roomlist"})
+          }
+        })
+      }
     },
-    handlePreview(){
-      console.log("这是Preview")
+    handleChange(){
+      if (!this.havepicture){
+        this.havepicture=true
+      }
     },
     handleRemove(){
-      console.log("删除图片")
+      this.havepicture=false
     },
     handleExceed(){
       this.$message.error("只能上传一张照片")
     },
     submitUpload(){
-      this.$refs.upload.submit();
+      if (this.havepicture){
+        this.$refs.upload.submit();
+      }
+      else{
+        this.$message.error("未上传图片")
+      }
     },
     back() {
+
       this.$router.replace({path: '/roomlist'})
     }
   }

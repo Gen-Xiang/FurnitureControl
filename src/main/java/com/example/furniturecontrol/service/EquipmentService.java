@@ -26,12 +26,7 @@ public class EquipmentService {
 
     public Equipment getEquipmentByEid(int eid){
         Optional<Equipment> equipmentOptional = equipmentRepository.findEquipmentByEid(eid);
-        if (equipmentOptional.isPresent()){
-            return equipmentOptional.get();
-        }
-        else{
-            return null;
-        }
+        return equipmentOptional.orElse(null);
     }
 
     public List<Equipment> getEquipmentByUid(int uid){
@@ -56,12 +51,7 @@ public class EquipmentService {
 
     public Equipment getEquipmentByEquipname(String equipname){
         Optional<Equipment> equipmentOptional = equipmentRepository.findEquipmentByEquipname(equipname);
-        if (equipmentOptional.isPresent()){
-            return equipmentOptional.get();
-        }
-        else{
-            return null;
-        }
+        return equipmentOptional.orElse(null);
     }
 
     public void addNewEquipment(Equipment equipment){
